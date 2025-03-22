@@ -1,7 +1,43 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import {JWT} from 'next-auth/jwt';
 
 
+// Refresh access token using refresh token
+async function refreshAccessToken(token: JWT): Promise<JWT> {
+
+    try {
+      const res = await fetch('https://maestro-api-dev.secil.biz/Auth/RefreshTokenLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          refreshToken: token.refreshToken
+        })
+      });
+  
+      const result = await res.json();
+      const newData = result.data;
+  
+      if (!res.ok || !newData?.accessToken) {
+        throw new Error('Failed to refresh access token');
+      }
+
+      return {
+        ...token,
+        accessToken: newData.accessToken,
+       // accessTokenExpires: Date.now() + newData.expiresIn * 1000,
+        refreshToken: newData.refreshToken ?? token.refreshToken,
+      };
+    } catch (error) {
+      console.error('Refresh token error:', error);
+      return {
+        ...token,
+        error: 'RefreshAccessTokenError'
+      };
+    }
+  }
 
 
 export const authOptions: AuthOptions = {
@@ -51,12 +87,25 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
+
+        // Initial sign in
         if (user) {
-          token.accessToken = user.accessToken;
-          token.refreshToken = user.refreshToken;
-          token.tokenType = user.tokenType;
+            return {
+                ...token,
+                accessToken: user.accessToken,
+                refreshToken: user.refreshToken,
+                tokenType: user.tokenType,
+              };
         }
-        return token;
+
+        // Access token has expired
+       // if(Date.now() < token.accessTokenExpires) {
+       //     return token;
+       // }
+
+        // Refresh access token
+        return refreshAccessToken(token);
+
       },
       async session({ session, token }) {
         session.user.accessToken = token.accessToken;

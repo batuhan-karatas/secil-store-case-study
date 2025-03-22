@@ -22,7 +22,7 @@ export default function LoginForm() {
     if (res?.error) {
       setError('Invalid email or password');
     } else {
-      router.push('/collections'); // or wherever you want
+      router.push('/collections'); 
     }
   };
 
