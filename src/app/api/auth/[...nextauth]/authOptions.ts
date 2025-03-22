@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import {JWT} from 'next-auth/jwt';
 
 
+
 // Refresh access token using refresh token
 async function refreshAccessToken(token: JWT): Promise<JWT> {
 
@@ -97,6 +98,8 @@ export const authOptions: AuthOptions = {
                 tokenType: user.tokenType,
               };
         }
+
+        
 
         // Access token has expired
        // if(Date.now() < token.accessTokenExpires) {
