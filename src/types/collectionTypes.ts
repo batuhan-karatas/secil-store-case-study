@@ -20,6 +20,8 @@ export interface Filter {
     colorCode: string | null;
     name: string;
     imageUrl: string;
+    outOfStock: boolean;
+    isSaleB2B: boolean;
   }
   
   export interface Collection {

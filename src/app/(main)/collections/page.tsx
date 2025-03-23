@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/app/api/getCollections";
-import { Collection } from "@/types/collectionTypes";
+import { useCollectionStore } from "@/store/useCollectionStore";
+import { useRouter } from "next/navigation";
 import { FiEdit3 } from "react-icons/fi";
 
 export default function Page() {
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const { collections, setCollections, setSelectedCollection } = useCollectionStore();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -78,7 +80,13 @@ export default function Page() {
             </div>
             <div className="p-3 ">Satış Kanalı - {collection.salesChannelId}</div>
             <div className="p-3 flex items-center justify-center">
-              <button className="hover:text-blue-600">
+              <button 
+                className="hover:text-blue-600"
+                onClick={() => {
+                  setSelectedCollection(collection);
+                  router.push("/collections/edit");
+                }}
+              >
                 <FiEdit3 size={18} />
               </button>
             </div>

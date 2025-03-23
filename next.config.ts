@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: [
+      "cdn.secilstore.com",
+      "cdn.secilikart.com",
+      "cdn.ilmio.com",
+      
+
+    ],
+  },
 };
 
 export default nextConfig;
