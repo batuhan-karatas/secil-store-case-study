@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { useCollectionStore } from "@/store/useCollectionStore";
 import { getProductsByFilters } from "@/app/api/getProductsByFilters";
 import ProductCard from "./ProductCard";
-import { Product } from "@/types/collectionTypes";
+
 
 
 export default function CollectionProducts() {
-  const { selectedCollection } = useCollectionStore();
-  const [products, setProducts] = useState<Product[]>([]);
+  const { selectedCollection,selectedCollectionProducts,setSelectedCollectionProducts } = useCollectionStore();
   const [isLoading, setIsLoading] = useState(true); // ← Added
 
   useEffect(() => {
@@ -16,12 +15,12 @@ export default function CollectionProducts() {
       if (selectedCollection?.filters?.filters?.length) {
         setIsLoading(true); // ← Set loading true before request
         const response = await getProductsByFilters(selectedCollection.filters.filters);
-        setProducts(response);
+        setSelectedCollectionProducts(response);
         setIsLoading(false); // ← End loading after fetch
       }
     };
     fetchProducts();
-  }, [selectedCollection]);
+  }, [selectedCollection, setSelectedCollectionProducts]);
 
   if (!selectedCollection) return <p className="p-4">No collection selected.</p>;
 
@@ -33,9 +32,13 @@ export default function CollectionProducts() {
         <p className="text-xl text-gray-600">Ürünler yükleniyor...</p>
       ) : (
         <div className="grid grid-cols-3 gap-4 ">
-          {products.map((product) => (
+          {selectedCollectionProducts?.length !== 0 
+          ? (
+            selectedCollectionProducts?.map((product) => (
             <ProductCard key={product.productCode} {...product} />
-          ))}
+            ))
+          ):
+          <p>Ürün bulunamadı.</p>}
         </div>
       )}
     </div>
