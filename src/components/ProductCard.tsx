@@ -23,7 +23,7 @@ const ProductCard = (product: Product) => {
       `}
     >
       {/* Image Container */}
-      <div className="relative w-full h-48 overflow-hidden">
+      <div className="relative w-full h-72 overflow-hidden">
         <Image
           src={product.imageUrl}
           alt={product.name || "Ürün Resmi"}

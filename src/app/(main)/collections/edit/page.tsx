@@ -1,8 +1,10 @@
 "use client";
 import CollectionProducts from "@/components/CollectionProducts";
+import ConstantProducts from "@/components/ConstantProducts";
 import FilterPanelModal from "@/components/FilterPanelModal";
 import { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SlidersHorizontal, Grid2x2, CircleAlert,Square, LayoutPanelTop } from "lucide-react";
 
 
 /* 
@@ -19,11 +21,17 @@ import { SlidersHorizontal } from "lucide-react";
 export default function EditCollectionPage() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const [columns, setColumns] = useState(3); // Options: 2, 3, 4
+
+  const router = useRouter();
+
 
   return (
     <div className="flex flex-col gap-6 p-4">
       {/* Filter Panel Header */}
-      <div className="flex justify-between items-center w-full flex-wrap gap-3">
+      <div className="flex justify-between items-center w-full flex-wrap gap-3 bg-white p-4 rounded shadow-sm">
         {/* Selected Filters Row */}
         <div className="flex flex-wrap gap-2">
           {selectedFilters.length > 0 ? (
@@ -50,6 +58,45 @@ export default function EditCollectionPage() {
         </button>
       </div>
 
+        {/* Columns Selector */}
+        <div className="flex flex-row items-end justify-end gap-2">
+            
+            {/* Info Icon */}
+            <button className="w-9 h-9 flex items-center justify-center cursor-pointer">
+                <CircleAlert size={24} />
+            </button>
+
+            {/* 2 Columns */}
+            <button
+                onClick={() => setColumns(2)}
+                className={`w-9 h-9 border rounded-md flex items-center justify-center cursor-pointer ${
+                columns === 2 ? "border-green-500 ring-2 ring-green-300" : "border-none"
+                }`}
+            >
+                <Square size={24} />
+            </button>
+
+            {/* 3 Columns */}
+            <button
+                onClick={() => setColumns(3)}
+                className={`w-9 h-9 border flex items-center justify-center cursor-pointer ${
+                columns === 3 ? "border-green-500 ring-2 ring-green-300" : "border-none"
+                }`}
+            >
+                <LayoutPanelTop size={24} />
+            </button>
+
+            {/* 4 Columns */}
+            <button
+                onClick={() => setColumns(4)}
+                className={`w-9 h-9 border flex items-center justify-center cursor-pointer ${
+                columns === 4 ? "border-green-500 ring-2 ring-green-300" : "border-none"
+                }`}
+            >
+                <Grid2x2 size={24} />
+            </button>
+            </div>
+
       {/* Main Content */}
       <div className="flex gap-6">
         {/* Left Side - Collection Products */}
@@ -58,7 +105,7 @@ export default function EditCollectionPage() {
         {/* Right Side Placeholder (Sabitler) */}
         <div className="w-1/2 border p-4 rounded">
           <h2 className="text-xl font-bold mb-2">Sabitler</h2>
-          <p>Right side structure to be implemented next...</p>
+          <ConstantProducts columns = {columns} />
         </div>
       </div>
 
@@ -68,6 +115,55 @@ export default function EditCollectionPage() {
         onClose={() => setIsFilterModalOpen(false)}
         setSelectedFilters={setSelectedFilters}
       />
+
+      {/* Action Buttons */}
+        <div className="flex justify-end gap-4 mt-6">
+        <button
+            onClick={() => router.push("/collections")} // or use router.push
+            className="px-6 py-2 bg-black text-white text-sm rounded hover:opacity-80"
+        >
+            Vazgeç
+        </button>
+        <button
+            onClick={() => setConfirmModalOpen(true)}
+            className="px-6 py-2 bg-black text-white text-sm rounded hover:opacity-80"
+        >
+            Kaydet
+        </button>
+        </div>
+
+        {/* Confirmation Modal */}
+            {confirmModalOpen && (
+            <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+                <div className="bg-white p-6 rounded-lg w-[400px] shadow-lg text-center">
+                <h3 className="text-xl font-bold mb-2">Uyarı!</h3>
+                <div className="flex justify-center my-4">
+                    <CircleAlert size={32} className="text-red-500" />
+                </div>
+                <p className="text-sm text-gray-800 mb-6">Sabitlerden Çıkarılacaktır Emin Misiniz?</p>
+
+                <div className="flex justify-center gap-4">
+                    <button
+                    onClick={() => setConfirmModalOpen(false)}
+                    className="px-5 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                    >
+                    Vazgeç
+                    </button>
+                    <button
+                    onClick={() => {
+                        setConfirmModalOpen(false);
+                        // optionally add save logic here
+                    }}
+                    className="px-5 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600"
+                    >
+                    Onayla
+                    </button>
+                </div>
+                </div>
+            </div>
+            )}
+
+
     </div>
   );
 }

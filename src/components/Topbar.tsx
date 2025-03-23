@@ -1,5 +1,8 @@
 "use client"
-import React, { useState } from "react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useCollectionStore } from "@/store/useCollectionStore";
+
 import {
   FiSun,
   FiMoon,
@@ -11,14 +14,30 @@ import {
 
 const Topbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const pathname = usePathname();
+  const selectedCollection = useCollectionStore((state) => state.selectedCollection);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  const isEditRoute = pathname.includes("/collections/edit");
+
 
   return (
     <header className="w-full h-26 flex items-center justify-between px-6 bg-white shadow-sm rounded-xl">
       <div className="flex flex-col justify-center gap-4">
-        <h1 className="text-xl font-semibold text-black">Koleksiyon</h1>
-        <p className="text-md text-black">Koleksiyon Listesi</p>
+      {isEditRoute ? (
+          <>
+            <h1 className="text-xl font-semibold text-black">Sabitleri Düzenle</h1>
+            <p className="text-md text-black">
+              Koleksiyon - {selectedCollection?.id || "-"} {selectedCollection?.info.name && `"${selectedCollection.info.name}"`}
+            </p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-xl font-semibold text-black">Koleksiyon</h1>
+            <p className="text-md text-black">Koleksiyon Listesi</p>
+          </>
+        )}
       </div>
 
       <div className="flex items-center gap-8 mr-22">
