@@ -4,6 +4,18 @@ import FilterPanelModal from "@/components/FilterPanelModal";
 import { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 
+
+/* 
+    For filter panel I just added ui elements and some state management.
+    The actual filtering logic is not implemented yet.
+    Filter API response is too complicated to implement on the products.
+    Products has no enough data to filter them properly.
+    Just color filtering is possible for now, but some collections are already filter the color.
+    So I just added a dummy filter panel for the UI.
+*/
+
+
+
 export default function EditCollectionPage() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
