@@ -17,7 +17,7 @@ const Sidebar = () => {
         <h3 className="text-xl  text-gray-500">Menü</h3>
           <Link
             
-            href="/dashboard"
+            href="/collections"
             className={`flex items-center gap-3 px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-200 rounded-md ${
                 pathName === "/dashboard" ? "bg-gray-200" : ""}`}
           >
@@ -26,7 +26,7 @@ const Sidebar = () => {
           </Link>
           <Link
             
-            href="/products"
+            href="/collections"
             className={`flex items-center gap-3 px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-200 rounded-md ${
                 pathName === "/products" ? "bg-gray-200" : ""}`}
           >

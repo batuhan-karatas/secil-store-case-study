@@ -28,7 +28,6 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       return {
         ...token,
         accessToken: newData.accessToken,
-       // accessTokenExpires: Date.now() + newData.expiresIn * 1000,
         refreshToken: newData.refreshToken ?? token.refreshToken,
       };
     } catch (error) {
@@ -42,7 +41,9 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
 
 
 export const authOptions: AuthOptions = {
+
   secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -71,7 +72,7 @@ export const authOptions: AuthOptions = {
                 return {
                   id: 'user_id',
                   email: credentials?.email,
-                  name: user.name || 'Frontend User',
+                  name: user.name || 'User',
                   accessToken: user.accessToken,
                   refreshToken: user.refreshToken,
                   tokenType: user.tokenType
@@ -98,13 +99,6 @@ export const authOptions: AuthOptions = {
                 tokenType: user.tokenType,
               };
         }
-
-        
-
-        // Access token has expired
-       // if(Date.now() < token.accessTokenExpires) {
-       //     return token;
-       // }
 
         // Refresh access token
         return refreshAccessToken(token);

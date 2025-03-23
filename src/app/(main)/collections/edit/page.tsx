@@ -4,7 +4,7 @@ import ConstantProducts from "@/components/ConstantProducts";
 import FilterPanelModal from "@/components/FilterPanelModal";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SlidersHorizontal, Grid2x2, CircleAlert,Square, LayoutPanelTop } from "lucide-react";
+import { SlidersHorizontal, Grid2x2,CircleAlert, CheckCheck,Square, LayoutPanelTop } from "lucide-react";
 
 
 /* 
@@ -26,7 +26,6 @@ export default function EditCollectionPage() {
   const [columns, setColumns] = useState(3); // Options: 2, 3, 4
 
   const router = useRouter();
-
 
   return (
     <div className="flex flex-col gap-6 p-4">
@@ -79,7 +78,7 @@ export default function EditCollectionPage() {
             {/* 3 Columns */}
             <button
                 onClick={() => setColumns(3)}
-                className={`w-9 h-9 border flex items-center justify-center cursor-pointer ${
+                className={`w-9 h-9 border rounded-md flex items-center justify-center cursor-pointer ${
                 columns === 3 ? "border-green-500 ring-2 ring-green-300" : "border-none"
                 }`}
             >
@@ -89,7 +88,7 @@ export default function EditCollectionPage() {
             {/* 4 Columns */}
             <button
                 onClick={() => setColumns(4)}
-                className={`w-9 h-9 border flex items-center justify-center cursor-pointer ${
+                className={`w-9 h-9 border rounded-md flex items-center justify-center cursor-pointer ${
                 columns === 4 ? "border-green-500 ring-2 ring-green-300" : "border-none"
                 }`}
             >
@@ -136,11 +135,11 @@ export default function EditCollectionPage() {
             {confirmModalOpen && (
             <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
                 <div className="bg-white p-6 rounded-lg w-[400px] shadow-lg text-center">
-                <h3 className="text-xl font-bold mb-2">Uyarı!</h3>
+                <h3 className="text-xl font-bold mb-2">Kaydet</h3>
                 <div className="flex justify-center my-4">
-                    <CircleAlert size={32} className="text-red-500" />
+                    <CheckCheck size={32} className="text-green-500" />
                 </div>
-                <p className="text-sm text-gray-800 mb-6">Sabitlerden Çıkarılacaktır Emin Misiniz?</p>
+                <p className="text-sm text-gray-800 mb-6">Sabitler Kaydedilecektir Emin misiniz?</p>
 
                 <div className="flex justify-center gap-4">
                     <button
@@ -152,7 +151,7 @@ export default function EditCollectionPage() {
                     <button
                     onClick={() => {
                         setConfirmModalOpen(false);
-                        // optionally add save logic here
+                        router.push("/collections");
                     }}
                     className="px-5 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600"
                     >

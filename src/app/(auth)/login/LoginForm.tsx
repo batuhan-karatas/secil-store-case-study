@@ -20,7 +20,7 @@ export default function LoginForm() {
     });
 
     if (res?.error) {
-      setError('Invalid email or password');
+      setError('Email veya Şifre Yanlış');
     } else {
       router.push('/collections'); 
     }
@@ -53,7 +53,7 @@ export default function LoginForm() {
         type="submit"
         className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
       >
-        Login
+        Giriş Yap
       </button>
     </form>
   );

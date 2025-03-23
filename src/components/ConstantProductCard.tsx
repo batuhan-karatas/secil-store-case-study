@@ -69,7 +69,7 @@ const ConstantProductCard = ({ product }: ConstantProductCardProps) => {
               <CircleAlert size={32} className="text-red-500" />
             </div>
             <p className="text-sm text-gray-800 mb-6">
-              Sabitlerden Çıkarılacaktır Emin Misiniz?
+              Seçtiğiniz Ürün Sabitlerden Çıkarılacaktır. Emin Misiniz?
             </p>
 
             <div className="flex justify-center gap-4">

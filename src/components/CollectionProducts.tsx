@@ -10,12 +10,13 @@ export default function CollectionProducts() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // ✅ Redirect handled in useEffect
+  // Redirect handled in useEffect to prevent accessing the edit page directly
   useEffect(() => {
     if (!selectedCollection) {
       router.push("/collections");
     }
-  }, [selectedCollection]);
+  }, [selectedCollection ,router]);
+
 
   useEffect(() => {
     const fetchProducts = async () => {

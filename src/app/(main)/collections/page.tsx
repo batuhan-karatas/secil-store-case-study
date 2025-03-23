@@ -13,20 +13,26 @@ export default function Page() {
   const pageSize = 10;
 
   useEffect(() => {
+
+    // Fetch collections if not already fetched
     const fetchData = async () => {
-      const data = await getCollections();
-      setCollections(data);
+      if(collections.length === 0) {
+        const data = await getCollections();
+        setCollections(data);
+      }
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [collections.length, setCollections]);
 
   const totalPages = 9;
+  
   const paginatedCollections = collections.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
-
+  
+  // Handle pagination
   const handlePageClick = (page: number) => {
     if (page !== currentPage) setCurrentPage(page);
   };
@@ -45,6 +51,7 @@ export default function Page() {
     ));
   };
 
+  // Loading state
   if (loading) return <p className="p-4">Loading collections...</p>;
 
   return (
@@ -79,21 +86,22 @@ export default function Page() {
               )}
             </div>
             <div className="p-3 ">Satış Kanalı - {collection.salesChannelId}</div>
-            <div className="p-3 flex items-center justify-center">
+            <div className="p-7 flex items-center justify-start">
               <button 
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 cursor-pointer"
                 onClick={() => {
                   setSelectedCollection(collection);
                   router.push("/collections/edit");
                 }}
               >
-                <FiEdit3 size={18} />
+                <FiEdit3 size={24} />
               </button>
             </div>
           </div>
         ))}
       </div>
 
+      
       {totalPages > 1 && (
         <div className="mt-6 flex justify-end items-center space-x-2">
           <button

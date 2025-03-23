@@ -6,6 +6,8 @@ export const getProductsByFilters = async (
   filters: Filter[]
 ): Promise<Product[]> => {
   try {
+
+    // Get the session to access the accessToken for the API call
     const session = await getSession();
     const accessToken = session?.user?.accessToken;
 
@@ -22,6 +24,9 @@ export const getProductsByFilters = async (
         headers: accessToken
           ? {
               Authorization: `Bearer ${accessToken}`,
+
+              // Set the language header for the API call to Turkish 
+              // without this header the API will return some values null
               "Accept-Language": "tr-TR",
             }
           : undefined,
